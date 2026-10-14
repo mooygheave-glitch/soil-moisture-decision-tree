@@ -1,0 +1,56 @@
+DATASET SUMMARY
+Total rows: 177
+Label counts:
+label
+kering    125
+basah      52
+
+Timestamp range by label:
+                        min                  max
+label                                           
+basah   2026-10-14 12:56:39  2026-10-14 13:05:39
+kering  2026-10-13 20:22:03  2026-10-13 21:49:43
+
+Hour of day by label:
+label           basah  kering
+jam_pengukuran               
+12                 21       0
+13                 31       0
+20                  0      38
+21                  0      87
+
+ADC summary by label:
+        count     mean  median   std   min   max
+label                                           
+basah      52  3298.58  3299.0  14.9  3250  3326
+kering    125  3606.56  3601.0  88.9  3505  4002
+
+Label counts by session:
+label         basah  kering
+session                    
+uji_basah_1      25       0
+uji_basah_2      27       0
+uji_kering_1      0      55
+uji_kering_2      0      70
+
+TWO-FEATURE BASELINE: soil_moisture_adc + jam_pengukuran
+Split: stratified random 75% train / 25% test; random_state=42
+Accuracy: 1.0000
+              precision    recall  f1-score   support
+
+       basah       1.00      1.00      1.00        13
+      kering       1.00      1.00      1.00        32
+
+    accuracy                           1.00        45
+   macro avg       1.00      1.00      1.00        45
+weighted avg       1.00      1.00      1.00        45
+
+Confusion matrix (rows actual, columns predicted; order kering, basah):
+[[32  0]
+ [ 0 13]]
+
+ADC-ONLY DIAGNOSTIC COMPARISON (not the primary model)
+Accuracy on same split: 1.0000
+
+CRITICAL LIMITATION
+The uploaded dry data were recorded on 2026-10-13 around 20:22–21:49, while wet data were recorded on 2026-10-14 around 12:56–13:05. Measurement hour/date is strongly associated with the label in this dataset. The model can exploit the measurement hour as a shortcut, so a high score does not prove that time is a meaningful predictor of soil moisture. Treat the result as a course baseline demonstration only. To estimate real generalization, collect both labels at overlapping hours and test on later independent sessions.
