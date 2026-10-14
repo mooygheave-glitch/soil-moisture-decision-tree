@@ -6,7 +6,7 @@ This project demonstrates a Machine Learning pipeline to classify soil measureme
 ## 2. Hardware and data acquisition
 - ESP32 DevKit
 - Capacitive soil-moisture sensor
-- Sensor VCC: 3.3 V; GND: GND; AO: GPIO34
+- Sensor VCC: 3.3 V; GND: GND; AO: GPIO35
 - Arduino IDE for sensor logging
 - Python serial logger for CSV capture
 
@@ -58,3 +58,12 @@ Install local dependencies using:
 - Soil type, water distribution, insertion depth, and sensor conditions can affect ADC.
 - Time of day is confounded with the labels in this dataset.
 - Do not claim general deployment performance based on this baseline alone.
+
+## 9. Firmware — ESP32
+The Arduino firmware is located in firmware/esp32_soil_moisture_logger.ino.
+
+- The firmware reads the capacitive soil-moisture sensor through GPIO34, averages 20 ADC readings per sample, and sends the elapsed time and ADC value through Serial at 115200 baud. Data are logged approximately every 10 seconds.
+
+- The Serial output is processed by the Python data-collection script. The resulting CSV files contain the measurement timestamp, elapsed time, ADC reading, and soil-condition label.
+
+- The ADC values represent raw sensor readings and are not calibrated moisture percentages.
